@@ -38,14 +38,6 @@ func (service *MovieService) AddMovie(ctx context.Context, req *pb.MovieParams) 
 		return nil, status.Error(codes.Aborted, db.ErrInternalError.Error())
 	}
 
-	var image string
-
-	if movie.Image.Valid {
-		image = movie.Image.String
-	} else {
-		image = ""
-	}
-
 	return &pb.MovieResponse{
 		Code:    codes.OK.String(),
 		Message: "Successfully Added",
@@ -53,7 +45,7 @@ func (service *MovieService) AddMovie(ctx context.Context, req *pb.MovieParams) 
 			Id:          movie.ID,
 			Title:       movie.Title,
 			Description: movie.Description,
-			Image:       image,
+			Image:       movie.Image.String,
 			Rating:      float32(movie.Rating.Float64),
 			CreatedAt:   movie.CreatedAt.Time.Format(time.DateTime),
 			UpdateAt:    movie.UpdatedAt.Time.Format(time.DateTime),

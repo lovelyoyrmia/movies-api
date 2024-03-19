@@ -72,12 +72,33 @@ func TestMovieService__AddMovie(t *testing.T) {
 			},
 		},
 		{
-			name: "Aborted",
+			name: "InvalidArgument",
 			req:  &pb.MovieParams{},
 			buildStubs: func(store *mock.MockStore) {
 				store.EXPECT().
 					AddMovie(gomock.Any(), gomock.Any()).
-					Times(1).
+					AnyTimes()
+
+			},
+			checkResponse: func(t *testing.T, res *pb.MovieResponse, err error) {
+				require.Error(t, err)
+				st, ok := status.FromError(err)
+				require.True(t, ok)
+				require.Equal(t, codes.InvalidArgument, st.Code())
+			},
+		},
+		{
+			name: "Aborted",
+			req: &pb.MovieParams{
+				Title:       movie.Title,
+				Description: movie.Description,
+				Image:       movie.Image.String,
+				Rating:      float32(movie.Rating.Float64),
+			},
+			buildStubs: func(store *mock.MockStore) {
+				store.EXPECT().
+					AddMovie(gomock.Any(), gomock.Any()).
+					AnyTimes().
 					Return(db.Movie{}, db.ErrInternalError)
 			},
 			checkResponse: func(t *testing.T, res *pb.MovieResponse, err error) {

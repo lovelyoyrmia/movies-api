@@ -26,9 +26,9 @@ func main() {
 }
 
 func seedMovies(store db.Store) {
-	randomMov := randomMovie()
 
 	for i := 0; i < 30; i++ {
+		randomMov := randomMovie()
 		movie, err := store.AddMovie(context.Background(), db.AddMovieParams{
 			Title:       randomMov.Title,
 			Description: randomMov.Description,
