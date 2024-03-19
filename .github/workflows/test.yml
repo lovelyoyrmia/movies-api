@@ -1,0 +1,13 @@
+name: Deploy To Production
+
+on:
+  push:
+    branches: [ "trunk" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Unit Testing
+      run: make test

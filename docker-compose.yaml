@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - data-volume:/var/lib/postgresql/data
+  api:
+    image: movies-api:latest
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "50054:50054"
+    environment:
+      - DB_URL=postgresql://root:root@postgres:5432/movies?sslmode=disable
+    depends_on:
+      - postgres
+    entrypoint: ["/app/wait-for.sh", "postgres:5432"]
+
+volumes:
+  data-volume:
