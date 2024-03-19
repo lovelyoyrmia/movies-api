@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package pb;
+
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+import "movie.proto";
+
+option go_package = "github.com/lovelyoyrmia/movies-api/domain/pb";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: {
+        title: "Movies API";
+        version: "1.0";
+        contact: {
+            name: "Lovelyo";
+            url: "https://lovelyoyrmia.com";
+            email: "lovelyoyrmia@gmail.com"
+        };
+    };
+};
+
+service MovieServices {
+    rpc AddMovie (MovieParams) returns (MovieResponse) {
+        option (google.api.http) = {
+            post: "/movies"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to add a new movie"
+            summary: "Add Movie"
+        };
+    };
+    rpc ListMovies (ListMoviesParams) returns (ListMoviesResponse) {
+        option (google.api.http) = {
+            get: "/movies"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get list of movies"
+            summary: "List Movies"
+        };
+    };
+    rpc DetailMovie (MovieIDParams) returns (MovieResponse) {
+        option (google.api.http) = {
+            get: "/movies/{id}"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to get detail of movie"
+            summary: "Detail Movie"
+        };
+    };
+    rpc UpdateMovie (MovieParams) returns (MovieResponse) {
+        option (google.api.http) = {
+            patch: "/movies/{id}"
+            body: "*"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to update movie"
+            summary: "Update Movie"
+        };
+    };
+    rpc DeleteMovie (MovieIDParams) returns (MovieResponse) {
+        option (google.api.http) = {
+            delete: "/movies/{id}"
+        };
+        option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+            description: "Use this API to delete movie"
+            summary: "Delete Movie"
+        };
+    };
+};
