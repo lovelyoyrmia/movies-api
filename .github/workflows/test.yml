@@ -1,4 +1,4 @@
-name: Deploy To Production
+name: Unit Testing
 
 on:
   push:
