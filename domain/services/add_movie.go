@@ -12,6 +12,11 @@ import (
 )
 
 func (service *MovieService) AddMovie(ctx context.Context, req *pb.MovieParams) (*pb.MovieResponse, error) {
+	violations := validateMovieParamsRequest(req)
+	if violations != nil {
+		return nil, invalidArgumentError(violations)
+	}
+
 	movie, err := service.store.AddMovie(ctx, db.AddMovieParams{
 		Title:       req.GetTitle(),
 		Description: req.GetDescription(),
