@@ -4,14 +4,22 @@ import (
 	"math/rand"
 )
 
-func RandomString() string {
+func RandomString(n int) string {
 	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
-	s := make([]rune, 10)
+	s := make([]rune, n)
 	for i := range s {
 		s[i] = letters[rand.Intn(len(letters))]
 	}
 	return string(s)
+}
+
+func RandomTitle() string {
+	return RandomString(50)
+}
+
+func RandomDescription() string {
+	return RandomString(100)
 }
 
 func RandomInt(min, max int) int {

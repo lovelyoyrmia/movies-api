@@ -8,6 +8,7 @@ import (
 	"github.com/lovelyoyrmia/movies-api/domain/pb"
 	"github.com/lovelyoyrmia/movies-api/internal/db"
 	"github.com/lovelyoyrmia/movies-api/internal/mock"
+	"github.com/lovelyoyrmia/movies-api/pkg/utils"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -72,13 +73,29 @@ func TestMovieService__AddMovie(t *testing.T) {
 			},
 		},
 		{
-			name: "InvalidArgument",
+			name: "InvalidArgument/EmptyParams",
 			req:  &pb.MovieParams{},
 			buildStubs: func(store *mock.MockStore) {
 				store.EXPECT().
 					AddMovie(gomock.Any(), gomock.Any()).
 					AnyTimes()
-
+			},
+			checkResponse: func(t *testing.T, res *pb.MovieResponse, err error) {
+				require.Error(t, err)
+				st, ok := status.FromError(err)
+				require.True(t, ok)
+				require.Equal(t, codes.InvalidArgument, st.Code())
+			},
+		},
+		{
+			name: "InvalidArgument/ValueTooLong",
+			req: &pb.MovieParams{
+				Title: utils.RandomString(260),
+			},
+			buildStubs: func(store *mock.MockStore) {
+				store.EXPECT().
+					AddMovie(gomock.Any(), gomock.Any()).
+					AnyTimes()
 			},
 			checkResponse: func(t *testing.T, res *pb.MovieResponse, err error) {
 				require.Error(t, err)

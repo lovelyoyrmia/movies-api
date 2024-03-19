@@ -6,7 +6,6 @@ import (
 
 	"github.com/lovelyoyrmia/movies-api/domain/pb"
 	"github.com/lovelyoyrmia/movies-api/internal/db"
-	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -24,7 +23,6 @@ func (service *MovieService) ListMovies(ctx context.Context, req *pb.ListMoviesP
 	movies, err := service.store.ListMovies(ctx, limit)
 
 	if err != nil {
-		log.Info().Msg(err.Error())
 		return nil, status.Error(codes.Aborted, db.ErrInternalError.Error())
 	}
 

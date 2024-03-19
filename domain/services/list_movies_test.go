@@ -45,7 +45,7 @@ func TestMovieService__ListMovies(t *testing.T) {
 			},
 		},
 		{
-			name: "ABORTED",
+			name: "Aborted",
 			req:  &pb.ListMoviesParams{},
 			buildStubs: func(store *mock.MockStore) {
 				store.EXPECT().

@@ -48,10 +48,10 @@ func seedMovies(store db.Store) {
 func randomMovie() db.Movie {
 	return db.Movie{
 		ID:          int32(utils.RandomID()),
-		Title:       utils.RandomString(),
-		Description: utils.RandomString(),
+		Title:       utils.RandomTitle(),
+		Description: utils.RandomDescription(),
 		Image: pgtype.Text{
-			String: utils.RandomString(),
+			String: utils.RandomString(15),
 			Valid:  true,
 		},
 		Rating: pgtype.Float8{
