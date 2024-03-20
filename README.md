@@ -30,6 +30,7 @@ This API Docs are built with Swagger and Redocs. To Access the API Docs can see 
 
 <img src="./docs/api-docs.png" />
 
+
 ### Default Error Response
 #### Base Response
 ```
