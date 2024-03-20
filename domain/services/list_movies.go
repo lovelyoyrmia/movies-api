@@ -36,7 +36,7 @@ func (service *MovieService) ListMovies(ctx context.Context, req *pb.ListMoviesP
 			Image:       v.Image.String,
 			Rating:      float32(v.Rating.Float64),
 			CreatedAt:   v.CreatedAt.Time.Format(time.DateTime),
-			UpdateAt:    v.UpdatedAt.Time.Format(time.DateTime),
+			UpdatedAt:   v.UpdatedAt.Time.Format(time.DateTime),
 		})
 	}
 
