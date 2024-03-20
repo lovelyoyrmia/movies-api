@@ -32,7 +32,7 @@ func (service *MovieService) DetailMovie(ctx context.Context, req *pb.MovieIDPar
 			Image:       movie.Image.String,
 			Rating:      float32(movie.Rating.Float64),
 			CreatedAt:   movie.CreatedAt.Time.Format(time.DateTime),
-			UpdateAt:    movie.UpdatedAt.Time.Format(time.DateTime),
+			UpdatedAt:   movie.UpdatedAt.Time.Format(time.DateTime),
 		},
 	}, nil
 }
