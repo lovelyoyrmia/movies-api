@@ -3,7 +3,7 @@
 ### Module : Go Version 1.21.6
 
 ### Server running on :
-<a href="http://3.27.14.107:50052">Production</a>
+<a href="http://3.27.14.107:50054">Production</a>
 
 This system is using GRPC and GRPC Gateway. The diagram below which explains how GRPC and gRPC Gateway work. 
 
@@ -26,7 +26,7 @@ This system is hosted on AWS EC2 and using github actions as a CI/CD Pipeline
 ## API Docs
 This API Docs are built with Swagger and Redocs. To Access the API Docs can see the link below :
 
-<a href="http://3.27.14.107:50052/docs">Link API Docs</a>
+<a href="http://3.27.14.107:50054/docs">Link API Docs</a>
 
 ### Default Error Response
 #### Base Response
@@ -43,15 +43,15 @@ This API Docs are built with Swagger and Redocs. To Access the API Docs can see 
     "code": integer,
     "message": string,
     "details": [
-			{
-				"@type": string,
-				"field_violations": [
-					{
-						"field": string,
-						"description": string
-					}
-				]
-			}
+		{
+			"@type": string,
+			"field_violations": [
+				{
+					"field": string,
+					"description": string
+				}
+			]
+		}
     ]
 }
 ```
@@ -75,26 +75,111 @@ Example:
 - To add a new movie
 ```
 POST /movies
+
+Body:
+{
+	"title": string,
+	"description": string,
+	"rating": float,
+	"image": string
+}
+
+Response:
+{
+	"code": int,
+	"message": string,
+	"data": {
+		"id": int,
+		"title": string,
+		"description": string,
+		"image": string,
+		"rating": float,
+		"created_at": datetime,
+		"updated_at": datetime
+	}
+}
 ```
 - To get list of movies
 ```
 /* limit can be optional */
 GET /movies?limit=10
+
+Response:
+{
+	"code": int,
+	"message": string,
+	"data": [
+		{
+			"id": int,
+			"title": string,
+			"description": string,
+			"image": string,
+			"rating": float,
+			"created_at": datetime,
+			"updated_at": datetime
+		}
+	]
+}
 ```
 - To get detail movie
 ```
 /* Movie id paramater */
 GET /movies/{id}
+
+Response:
+{
+	"code": int,
+	"message": string,
+	"data": {
+		"id": int,
+		"title": string,
+		"description": string,
+		"image": string,
+		"rating": float,
+		"created_at": datetime,
+		"updated_at": datetime
+	}
+}
 ```
 - To update a movie
 ```
 /* Movie id paramater */
 PATCH /movies/{id}
+
+Body:
+{
+	"title": string,
+	"description": string,
+	"rating": float,
+	"image": string
+}
+
+Response:
+{
+	"code": int,
+	"message": string,
+	"data": {
+		"id": int,
+		"title": string,
+		"description": string,
+		"image": string,
+		"rating": float,
+		"created_at": datetime,
+		"updated_at": datetime
+	}
+}
 ```
 - To delete a movie
 ```
 /* Movie id paramater */
 DELETE /movies/{id}
+
+Response:
+{
+	"code": int,
+	"message": string,
+	"data": null
+}
 ```
 
 ## Get Started

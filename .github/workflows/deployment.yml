@@ -1,0 +1,50 @@
+name: Deployment
+
+on:
+  push:
+    branches: [ "release" ]
+
+jobs:
+  build:
+    name: Push Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Login Dockerhub
+      env:
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    
+    - name: Load Secrets
+      run: touch ./app.env && aws secretsmanager get-secret-value --secret-id movies_secrets --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > app.env
+    
+    - name: Build Docker Image
+      run: docker compose -f docker-compose.yaml build
+    
+    - name: Added New Tag
+      run: docker tag movies-api:latest lovelyoyrmia/movies-api:latest
+
+    - name: Push to Dockerhub
+      run: docker push lovelyoyrmia/movies-api:latest
+  
+  deploy:
+    name: Deploy To Ec2
+    needs: build
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull Docker Image
+        run: sudo docker pull lovelyoyrmia/movies-api:latest
+      - name: Delete Previous Container
+        run: sudo docker rm -f movies-api || true
+      - name: Run Docker Container
+        run: sudo docker run -d --name movies-api -p 50052:50052 lovelyoyrmia/movies-api:latest
