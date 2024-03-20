@@ -28,6 +28,8 @@ This API Docs are built with Swagger and Redocs. To Access the API Docs can see 
 
 <a href="http://3.27.14.107:50054/docs">Link API Docs</a>
 
+<img src="./docs/api-docs.png" />
+
 ### Default Error Response
 #### Base Response
 ```
