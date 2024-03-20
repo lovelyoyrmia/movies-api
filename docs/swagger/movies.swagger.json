@@ -250,7 +250,7 @@
         "createdAt": {
           "type": "string"
         },
-        "updateAt": {
+        "updatedAt": {
           "type": "string"
         }
       }
