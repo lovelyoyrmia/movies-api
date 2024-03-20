@@ -47,4 +47,4 @@ jobs:
       - name: Delete Previous Container
         run: sudo docker rm -f movies-api || true
       - name: Run Docker Container
-        run: sudo docker run -d --name movies-api -p 50052:50052 lovelyoyrmia/movies-api:latest
+        run: sudo docker run -d --name movies-api -p 50054:50054 lovelyoyrmia/movies-api:latest
