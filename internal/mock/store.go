@@ -94,6 +94,21 @@ func (mr *MockStoreMockRecorder) ListMovies(arg0, arg1 interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListMovies", reflect.TypeOf((*MockStore)(nil).ListMovies), arg0, arg1)
 }
 
+// ListMoviesByTitle mocks base method.
+func (m *MockStore) ListMoviesByTitle(arg0 context.Context, arg1 db.ListMoviesByTitleParams) ([]db.Movie, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListMoviesByTitle", arg0, arg1)
+	ret0, _ := ret[0].([]db.Movie)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListMoviesByTitle indicates an expected call of ListMoviesByTitle.
+func (mr *MockStoreMockRecorder) ListMoviesByTitle(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListMoviesByTitle", reflect.TypeOf((*MockStore)(nil).ListMoviesByTitle), arg0, arg1)
+}
+
 // UpdateMovie mocks base method.
 func (m *MockStore) UpdateMovie(arg0 context.Context, arg1 db.UpdateMovieParams) (db.Movie, error) {
 	m.ctrl.T.Helper()

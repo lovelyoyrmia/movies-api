@@ -113,6 +113,45 @@ func (q *Queries) ListMovies(ctx context.Context, limit int32) ([]Movie, error) 
 	return items, nil
 }
 
+const listMoviesByTitle = `-- name: ListMoviesByTitle :many
+SELECT id, title, description, image, rating, created_at, updated_at FROM movies
+WHERE title = $1
+LIMIT $2
+`
+
+type ListMoviesByTitleParams struct {
+	Title string `json:"title"`
+	Limit int32  `json:"limit"`
+}
+
+func (q *Queries) ListMoviesByTitle(ctx context.Context, arg ListMoviesByTitleParams) ([]Movie, error) {
+	rows, err := q.db.Query(ctx, listMoviesByTitle, arg.Title, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Movie{}
+	for rows.Next() {
+		var i Movie
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Description,
+			&i.Image,
+			&i.Rating,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateMovie = `-- name: UpdateMovie :one
 UPDATE movies
 SET
