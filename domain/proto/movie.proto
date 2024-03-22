@@ -18,6 +18,7 @@ message MovieIDParams {
 
 message ListMoviesParams {
     optional int32 limit = 1;
+    optional string title = 2;
 }
 
 message Movie {

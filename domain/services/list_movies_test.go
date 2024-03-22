@@ -32,11 +32,21 @@ func TestMovieService__ListMovies(t *testing.T) {
 			name: "OK",
 			req: &pb.ListMoviesParams{
 				Limit: &limit,
+				Title: &movies[0].Title,
 			},
 			buildStubs: func(store *mock.MockStore) {
 				store.EXPECT().
 					ListMovies(gomock.Any(), gomock.Eq(limit)).
-					Times(1).
+					AnyTimes().
+					Return(movies, nil)
+				
+				arg := db.ListMoviesByTitleParams{
+					Title: movies[0].Title,
+					Limit: limit,
+				}
+				store.EXPECT().
+					ListMoviesByTitle(gomock.Any(), gomock.Eq(arg)).
+					AnyTimes().
 					Return(movies, nil)
 			},
 			checkResponse: func(t *testing.T, res *pb.ListMoviesResponse, err error) {

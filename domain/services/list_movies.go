@@ -19,16 +19,29 @@ func (service *MovieService) ListMovies(ctx context.Context, req *pb.ListMoviesP
 	} else {
 		limit = req.GetLimit()
 	}
+	
+	var newMovies []db.Movie
 
-	movies, err := service.store.ListMovies(ctx, limit)
-
-	if err != nil {
-		return nil, status.Error(codes.Aborted, db.ErrInternalError.Error())
+	if req.Title == nil {
+		movies, err := service.store.ListMovies(ctx, limit)
+		if err != nil {
+			return nil, status.Error(codes.Aborted, db.ErrInternalError.Error())
+		}
+		newMovies = movies
+	} else {
+		movies, err := service.store.ListMoviesByTitle(ctx, db.ListMoviesByTitleParams{
+			Title: req.GetTitle(),
+			Limit: limit,
+		})
+		if err != nil {
+			return nil, status.Error(codes.Aborted, db.ErrInternalError.Error())
+		}
+		newMovies = movies
 	}
 
 	var moviesRes []*pb.Movie
 
-	for _, v := range movies {
+	for _, v := range newMovies {
 		moviesRes = append(moviesRes, &pb.Movie{
 			Id:          v.ID,
 			Title:       v.Title,
