@@ -13,6 +13,7 @@ type Querier interface {
 	DeleteMovie(ctx context.Context, id int32) error
 	DetailMovie(ctx context.Context, id int32) (Movie, error)
 	ListMovies(ctx context.Context, limit int32) ([]Movie, error)
+	ListMoviesByTitle(ctx context.Context, arg ListMoviesByTitleParams) ([]Movie, error)
 	UpdateMovie(ctx context.Context, arg UpdateMovieParams) (Movie, error)
 }
 

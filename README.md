@@ -5,8 +5,6 @@
 ### Server running on :
 <a href="http://3.27.14.107:50054">Production</a>
 
-This system is using GRPC and GRPC Gateway. The diagram below which explains how GRPC and gRPC Gateway work. 
-
 ## Tech Stack
 [<img src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="windows" >](https://www.microsoft.com/en-id/windows)  &nbsp;&nbsp;  [<img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="linux">](https://www.linux.org/) &nbsp;&nbsp; [<img src="https://img.shields.io/badge/Debian-ffffff?style=for-the-badge&logo=debian&logoColor=red" alt="debian">](https://wiki.debian.org/InstallingDebianOn/Microsoft/Windows/SubsystemForLinux)
 

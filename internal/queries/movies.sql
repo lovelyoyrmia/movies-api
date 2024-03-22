@@ -12,6 +12,11 @@ INSERT INTO movies (
 SELECT * FROM movies
 LIMIT $1;
 
+-- name: ListMoviesByTitle :many
+SELECT * FROM movies
+WHERE title = $1
+LIMIT $2;
+
 -- name: DetailMovie :one
 SELECT * FROM movies
 WHERE id = $1
